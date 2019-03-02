@@ -99,7 +99,7 @@ export default class Slider extends PureComponent {
      * default blue gradient image.
      */
     maximumTrackTintColor: PropTypes.string,
-    
+
     /**
      * Custom component used for the track to the right of the button.
      */
@@ -324,7 +324,7 @@ export default class Slider extends PureComponent {
 
   _handleStartShouldSetPanResponder = (e: Object, /*gestureState: Object*/): boolean => {
     // Should we become active when the user presses down on the thumb?
-    return this._thumbHitTest(e);
+    return true;
   };
 
   _handleMoveShouldSetPanResponder(/*e: Object, gestureState: Object*/): boolean {
@@ -332,10 +332,12 @@ export default class Slider extends PureComponent {
     return false;
   };
 
-  _handlePanResponderGrant = (/*e: Object, gestureState: Object*/) => {
-    this._previousLeft = this._getThumbLeft(this._getCurrentValue());
+  _handlePanResponderGrant = (e: Object, gestureState: Object) => {
+    // this._previousLeft = this._getThumbLeft(this._getCurrentValue());
+    this._previousLeft = gestureState.x0 - (this.state.thumbSize.width/2);
     this._fireChangeEvent('onSlidingStart');
   };
+
 
   _handlePanResponderMove = (e: Object, gestureState: Object) => {
     if (this.props.disabled) {
